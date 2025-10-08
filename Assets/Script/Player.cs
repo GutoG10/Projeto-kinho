@@ -27,7 +27,7 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.W))
         {
-            if (rb.position.y == 0.5f)
+            if (rb.position.y == 0.0f)
             {
                 Pula();
             }
