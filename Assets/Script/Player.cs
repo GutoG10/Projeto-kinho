@@ -5,6 +5,8 @@ public class Player : MonoBehaviour
 {
     public GameObject player;
 
+    public JumpScript jumpDetector;
+
     public Boolean encostando = false;
 
     public BoxCollider jumpTrigger;
@@ -20,6 +22,7 @@ public class Player : MonoBehaviour
     {
         Debug.Log("Hello World");
         player.TryGetComponent<Rigidbody>(out rb);
+
     }
 
     // Update is called once per frame
@@ -27,10 +30,11 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.W))
         {
-            if (rb.position.y == 0.0f)
+            if (jumpDetector.allowJump)
             {
                 Pula();
             }
+            
 
         }
         else if (Input.GetKey(KeyCode.D))
@@ -50,13 +54,15 @@ public class Player : MonoBehaviour
     }
     void ParaDireita()
     {
-        rb.AddForce(new Vector3(speed, 0, 0));
+        rb.AddForce(new Vector3(-speed, 0, 0));
     }
 
     void ParaEsquerda()
     {
-        rb.AddForce(new Vector3(-speed, 0, 0));
+        rb.AddForce(new Vector3(speed, 0, 0));
     }
+
+    
 
 
 }
