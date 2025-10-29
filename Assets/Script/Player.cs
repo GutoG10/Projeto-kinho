@@ -1,68 +1,42 @@
-using System;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
 public class Player : MonoBehaviour
 {
-    public GameObject player;
-
+    public Rigidbody rb;
     public JumpScript jumpDetector;
 
-    public Boolean encostando = false;
+    public float speed = 5f;
+    public float jumpPower = 7f;
 
-    public BoxCollider jumpTrigger;
-
-    public Rigidbody rb;
-
-    public float speed;
-
-    public float jumpPower;
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        Debug.Log("Hello World");
-        player.TryGetComponent<Rigidbody>(out rb);
+        // Garante que o Rigidbody e JumpScript estejam atribuídos
+        if (rb == null)
+            rb = GetComponent<Rigidbody>();
 
+        if (jumpDetector == null)
+            jumpDetector = GetComponentInChildren<JumpScript>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            if (jumpDetector.allowJump)
-            {
-                Pula();
-            }
-            
+        float move = 0f;
 
-        }
-        else if (Input.GetKey(KeyCode.D))
-        {
-            ParaDireita();
-        }
+        if (Input.GetKey(KeyCode.D))
+            move = -1f;
         else if (Input.GetKey(KeyCode.A))
-        {
-            ParaEsquerda();
-        }
+            move = 1f;
 
+        rb.linearVelocity = new Vector3(move * speed, rb.linearVelocity.y, 0);
 
+        if (Input.GetKeyDown(KeyCode.W) && jumpDetector.allowJump)
+            Pula();
     }
+
     void Pula()
     {
-        rb.AddForce(new Vector3(0, jumpPower, 0));
+        rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0, 0);
+        rb.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
     }
-    void ParaDireita()
-    {
-        rb.AddForce(new Vector3(-speed, 0, 0));
-    }
-
-    void ParaEsquerda()
-    {
-        rb.AddForce(new Vector3(speed, 0, 0));
-    }
-
-    
-
-
 }
