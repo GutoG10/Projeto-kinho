@@ -1,15 +1,14 @@
 using UnityEngine;
 
-public class CameraFollow : MonoBehaviour
+public class FollowCamera : MonoBehaviour
 {
-    public Transform target; // O objeto que a câmera vai seguir
-    public Vector3 offset;   // Distância da câmera em relação ao alvo
+    public Transform target;   // arraste o Player aqui no Inspector
+    public Vector3 offset = new Vector3(5, 3, 10); // ajuste o que quiser
 
     void LateUpdate()
     {
-        if (target != null)
-        {
-            transform.position = target.position + offset;
-        }
+        if (target == null) return;
+
+        transform.position = target.position + offset;
     }
 }
